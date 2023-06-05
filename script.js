@@ -9,8 +9,7 @@ const validatePokemon = (pokemon) => {
     pokemon !== null
   ) {
     // Check if the keys are the same as the format
-
-    let = ["name", "height", "width"];
+    let format = ["name", "height", "type"];
     return format.every((val, i) => val === Object.keys(pokemon)[i]);
   }
   return false;
@@ -67,3 +66,11 @@ ${item.name} (height: ${item.height})- <span class="pokemon__size">Wow, that's b
 }
 
 pokemonRepository.getAll().forEach(createPokemon);
+
+pokemonRepository.add({
+  name: "Pikachu",
+  height: 1.4,
+  type: ["electric"],
+});
+
+console.log(pokemonRepository.getAll());
