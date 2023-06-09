@@ -1,8 +1,6 @@
 // Validate a pokemon if it is and object and keys match with the format.
-
 const validatePokemon = (pokemon) => {
   //Check if the pokemon is object
-
   if (
     typeof pokemon === "object" &&
     !Array.isArray(pokemon) &&
@@ -38,8 +36,22 @@ let pokemonRepository = (() => {
     return pokemonList;
   };
 
-  const add = function (item) {
+  const showDetails = (pokemon) => {
+    console.log(pokemon);
+  };
+
+  const addListItem = function (item) {
     if (validatePokemon(item)) pokemonList.push(item);
+    const ul = document.querySelector(".pokemon-list");
+    let listItem = document.createElement("li");
+    let button = document.createElement("button");
+    button.innerText = item.name;
+    button.classList.add("pokemon-list__item");
+    listItem.appendChild(button);
+    ul.appendChild(listItem);
+
+    //Event listener for pokemon button
+    button.addEventListener("click", () => showDetails(item));
   };
 
   const search = function (searchText) {
@@ -50,7 +62,7 @@ let pokemonRepository = (() => {
 
   return {
     getAll,
-    add,
+    addListItem,
     search,
   };
 })();
@@ -62,15 +74,15 @@ function createPokemon(item) {
   let tallestPokemon = `<p class="pokemon">
 ${item.name} (height: ${item.height})- <span class="pokemon__size">Wow, that's big</span>
 </p>`;
-  item.height < 2 ? document.write(pokemon) : document.write(tallestPokemon);
+  pokemonRepository.addListItem(item);
 }
 
-pokemonRepository.getAll().forEach(createPokemon);
+pokemonRepository
+  .getAll()
+  .forEach((item) => pokemonRepository.addListItem(item));
 
-pokemonRepository.add({
+pokemonRepository.addListItem({
   name: "Pikachu",
   height: 1.4,
   type: ["electric"],
 });
-
-console.log(pokemonRepository.getAll());
