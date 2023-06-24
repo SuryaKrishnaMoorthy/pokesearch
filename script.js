@@ -1,5 +1,6 @@
 const API_URL = "https://pokeapi.co/api/v2/pokemon";
 const modalContainer = document.querySelector(".modal-container");
+
 const isHidden = modalContainer.classList.contains("hidden");
 
 // Validate a pokemon if it is and object and keys match with the format.
@@ -66,6 +67,14 @@ const showModal = (title, details, img) => {
   modalContainer.addEventListener("click", (e) => {
     if (e.target === modalContainer) hideModal();
   });
+
+  window.addEventListener("keydown", (e) => {
+    console.log(e.key, !isHidden);
+    if (e.key === "Escape" && !modalContainer.classList.contains("hidden")) {
+      hideModal();
+    }
+  });
+  console.log(isHidden);
 };
 
 let pokemonRepository = (() => {
