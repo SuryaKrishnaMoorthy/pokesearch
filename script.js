@@ -1,7 +1,4 @@
 const API_URL = "https://pokeapi.co/api/v2/pokemon";
-const modalContainer = document.querySelector(".modal-container");
-
-const isHidden = modalContainer.classList.contains("hidden");
 
 // Validate a pokemon if it is and object and keys match with the format.
 const validatePokemon = (pokemon) => {
@@ -18,63 +15,26 @@ const validatePokemon = (pokemon) => {
   return false;
 };
 
-const hideModal = () => {
-  modalContainer.classList.add("hidden");
-};
-
 const showModal = (title, details, img) => {
-  modalContainer.innerHTML = null;
-  if (isHidden) {
-    modalContainer.classList.remove("hidden");
-  }
-
-  const modal = document.createElement("div");
-  modal.classList.add("modal");
-
-  const closeBtn = document.createElement("button");
-  closeBtn.classList.add("close-btn");
-  closeBtn.innerText = "X";
-  closeBtn.addEventListener("click", () => hideModal());
-
-  const modalContent = document.createElement("div");
-  modalContent.classList.add("modal-content");
-
-  const modalTitle = document.createElement("h1");
-  modalTitle.classList.add("modal-title");
-  modalTitle.innerText = title.slice(0, 1).toUpperCase() + title.slice(1);
+  const modalTitle = $(".modal-title");
+  const modalBody = $(".modal-body");
+  const modalHeader = $(".modal-header");
+  modalTitle.empty();
+  modalBody.empty();
+  const name = $(
+    `<h1>${title.slice(0, 1).toUpperCase() + title.slice(1)}</h1>`
+  );
+  modalTitle.append(name);
 
   /** Using loop to show more key value pairs if needed */
-  let modalDetails = null;
   Object.keys(details).forEach((detailKey) => {
-    modalDetails = document.createElement("p");
-    modalDetails.classList.add("modal-details");
-    modalDetails.innerText = `${detailKey}: ${details[detailKey]}`;
+    modalBody.append(
+      `<p class="modal-details">${detailKey}: ${details[detailKey]}</p>`
+    );
   });
 
-  const modalImage = document.createElement("img");
-  modalImage.classList.add("modal-image");
-  modalImage.src = img;
-  modalImage.alt = `${title}`;
-
-  modal.appendChild(closeBtn);
-  modalContent.appendChild(modalTitle);
-  modalContent.appendChild(modalDetails);
-  modalContent.appendChild(modalImage);
-  modal.appendChild(modalContent);
-  modalContainer.appendChild(modal);
-
-  // Hide modal if clicked on backdrop
-  modalContainer.addEventListener("click", (e) => {
-    if (e.target === modalContainer) hideModal();
-  });
-
-  window.addEventListener("keydown", (e) => {
-    console.log(e.key, !isHidden);
-    if (e.key === "Escape" && !modalContainer.classList.contains("hidden")) {
-      hideModal();
-    }
-  });
-  console.log(isHidden);
+  const modalImage = $(`<img class="modal-img" src=${img} alt=${title}}/>`);
+  modalBody.append(modalImage);
 };
 
 let pokemonRepository = (() => {
@@ -127,11 +87,15 @@ let pokemonRepository = (() => {
   // create a pokemon button and add to the button list
   const addListItem = function (item) {
     if (validatePokemon(item)) pokemonList.push(item);
-    const ul = document.querySelector(".pokemon-list");
+    const ul = document.querySelector(".list-group");
     let listItem = document.createElement("li");
+    listItem.classList.add("w-25");
+
     let button = document.createElement("button");
     button.innerText = item.name;
-    button.classList.add("pokemon-list__item");
+    button.classList.add("list-group-item", "list-group-item-action", "w-100");
+    $("li").attr("data-toggle", "modal");
+    $("li").attr("data-target", "#exampleModalCenter");
     listItem.appendChild(button);
     ul.appendChild(listItem);
 
@@ -189,7 +153,6 @@ ${item.name} (height: ${item.height})- <span class="pokemon__size">Wow, that's b
 }
 
 /**Function calls */
-// Make sure list is rendered after yove gotten all info from the server
 pokemonRepository
   .loadList()
   .then(() =>
