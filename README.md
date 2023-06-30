@@ -1,9 +1,8 @@
 # pokesearch
 
 ## About the project
-
   
-  <p>An application which display the pokemons as a list. Each pokemon list item can be viewed in a modal on click. Pokesearch can be viewed [here](https://suryakrishnamoorthy.github.io/pokesearch/)</p>
+  An application which display the pokemons as a list. Each pokemon list item can be viewed in a modal on click. Pokesearch can be viewed [here](https://suryakrishnamoorthy.github.io/pokesearch/)
 
 ## Features
 
