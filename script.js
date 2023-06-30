@@ -142,16 +142,6 @@ let pokemonRepository = (() => {
   };
 })();
 
-function createPokemon(item) {
-  let pokemon = `<p class="pokemon">
-  ${item.name} (height: ${item.height})
-  </p>`;
-  let tallestPokemon = `<p class="pokemon">
-${item.name} (height: ${item.height})- <span class="pokemon__size">Wow, that's big</span>
-</p>`;
-  pokemonRepository.addListItem(item);
-}
-
 /**Function calls */
 pokemonRepository
   .loadList()
@@ -160,9 +150,3 @@ pokemonRepository
       .getAll()
       .forEach((item) => pokemonRepository.addListItem(item))
   );
-
-// pokemonRepository.addListItem({
-//   name: "Pikachu",
-//   height: 1.4,
-//   type: ["electric"],
-// });
